@@ -1,0 +1,27 @@
+# Data and Model Weights
+data/
+*.csv
+*.csv.gz
+*.pth
+*.pt
+*.pkl
+*.joblib
+*.npy
+
+# Image Artifacts
+*.png
+*.jpg
+*.jpeg
+
+# Environments and Notebooks
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+.env
+venv/
+env/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
