@@ -1,0 +1,301 @@
+Date,District,Headline,Type
+2010-01-03,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2010-01-17,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2010-01-31,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2010-03-07,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2010-03-21,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2010-03-28,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2010-04-11,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2010-05-02,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2010-05-30,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2010-07-04,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2010-07-18,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2010-08-22,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2010-08-29,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2010-10-10,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2010-10-31,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2010-11-14,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2010-12-19,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2010-12-26,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2011-01-02,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2011-03-13,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2011-03-27,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2011-04-03,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2011-05-01,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2011-06-19,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2011-07-24,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2011-08-28,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2011-08-28,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2011-10-02,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2011-11-06,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2011-11-20,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2011-12-04,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2011-12-25,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2012-01-08,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2012-02-12,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2012-03-04,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2012-03-18,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2012-04-01,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2012-04-08,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2012-04-22,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2012-05-06,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2012-05-27,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2012-06-10,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2012-06-24,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2012-07-01,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2012-07-15,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2012-07-29,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2012-08-19,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2012-10-21,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2012-11-11,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2012-11-25,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2012-11-25,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2012-12-09,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2012-12-16,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2013-01-13,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2013-01-27,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2013-02-17,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2013-03-03,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2013-03-17,Ahmedabad,Alert: Heavy monsoon and waterlogging reported in Ahmedabad.,Weather_Alert
+2013-03-24,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2013-04-07,Ahmedabad,Health Emergency: Ahmedabad hospitals report surge in viral fever.,Medical_Alert
+2010-01-03,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2010-01-17,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2010-01-31,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2010-03-07,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2010-03-21,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2010-03-28,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2010-04-11,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2010-05-02,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2010-05-30,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2010-07-04,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2010-07-18,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2010-08-22,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2010-08-29,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2010-10-10,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2010-10-31,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2010-11-14,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2010-12-19,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2010-12-26,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2011-01-02,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2011-03-13,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2011-03-27,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2011-04-03,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2011-05-01,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2011-06-19,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2011-07-24,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2011-08-28,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2011-08-28,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2011-10-02,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2011-11-06,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2011-11-20,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2011-12-04,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2011-12-25,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2012-01-08,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2012-02-12,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2012-03-04,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2012-03-18,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2012-04-01,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2012-04-08,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2012-04-22,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2012-05-06,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2012-05-27,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2012-06-10,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2012-06-24,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2012-07-01,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2012-07-15,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2012-07-29,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2012-08-19,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2012-10-21,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2012-11-11,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2012-11-25,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2012-11-25,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2012-12-09,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2012-12-16,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2013-01-13,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2013-01-27,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2013-02-17,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2013-03-03,Surat,Alert: Heavy monsoon and waterlogging reported in Surat.,Weather_Alert
+2013-03-10,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2013-03-24,Surat,Health Emergency: Surat hospitals report surge in viral fever.,Medical_Alert
+2010-01-03,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2010-01-17,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2010-01-31,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2010-03-07,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2010-03-21,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2010-03-28,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2010-04-11,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2010-05-02,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2010-05-30,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2010-07-04,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2010-07-18,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2010-08-22,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2010-08-29,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2010-10-10,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2010-10-31,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2010-11-14,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2010-12-19,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2010-12-26,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2011-01-02,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2011-03-13,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2011-03-27,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2011-04-03,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2011-05-01,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2011-06-19,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2011-07-24,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2011-08-28,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2011-08-28,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2011-10-02,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2011-11-06,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2011-11-20,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2011-12-04,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2011-12-25,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2012-01-08,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2012-02-12,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2012-03-04,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2012-03-18,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2012-04-01,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2012-04-08,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2012-04-22,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2012-05-06,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2012-05-27,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2012-06-10,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2012-06-24,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2012-07-01,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2012-07-15,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2012-07-29,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2012-07-29,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2012-08-19,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2012-10-21,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2012-11-11,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2012-11-25,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2012-11-25,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2012-12-09,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2012-12-16,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2013-01-13,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2013-01-27,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2013-02-03,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2013-02-17,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2013-03-03,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2013-03-10,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2013-03-17,Vadodara,Alert: Heavy monsoon and waterlogging reported in Vadodara.,Weather_Alert
+2013-03-24,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2013-04-07,Vadodara,Health Emergency: Vadodara hospitals report surge in viral fever.,Medical_Alert
+2010-01-03,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2010-01-17,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2010-01-31,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2010-03-07,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2010-03-21,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2010-03-28,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2010-04-11,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2010-05-02,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2010-05-30,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2010-07-04,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2010-07-18,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2010-08-22,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2010-08-29,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2010-10-10,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2010-10-31,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2010-11-14,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2010-12-19,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2010-12-26,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2011-01-02,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2011-03-13,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2011-03-27,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2011-04-03,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2011-05-01,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2011-06-19,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2011-07-24,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2011-08-28,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2011-08-28,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2011-10-02,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2011-11-06,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2011-11-20,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2011-12-04,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2011-12-25,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2012-01-08,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2012-02-12,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2012-02-12,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2012-03-04,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2012-03-18,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2012-04-01,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2012-04-08,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2012-04-22,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2012-05-06,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2012-05-27,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2012-06-10,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2012-06-24,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2012-07-01,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2012-07-15,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2012-07-29,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2012-08-19,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2012-10-21,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2012-11-11,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2012-11-25,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2012-11-25,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2012-12-09,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2012-12-16,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2013-01-13,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2013-01-27,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2013-02-17,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2013-03-03,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2013-03-17,Rajkot,Alert: Heavy monsoon and waterlogging reported in Rajkot.,Weather_Alert
+2013-03-24,Rajkot,Health Emergency: Rajkot hospitals report surge in viral fever.,Medical_Alert
+2010-01-03,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert
+2010-01-17,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2010-01-31,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2010-03-07,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2010-03-21,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2010-03-28,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert
+2010-04-11,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2010-05-02,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert
+2010-05-30,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2010-07-04,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2010-07-18,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2010-08-22,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2010-08-29,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert
+2010-10-10,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2010-10-31,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert
+2010-12-19,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2010-12-26,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert
+2011-01-02,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2011-03-13,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2011-03-27,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2011-04-03,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert
+2011-05-01,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2011-06-19,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2011-07-24,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2011-08-28,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert
+2011-08-28,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2011-10-02,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2011-11-06,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert
+2011-11-20,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2011-12-04,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2011-12-25,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert
+2012-01-08,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2012-02-12,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2012-03-04,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert
+2012-03-18,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert
+2012-04-01,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2012-04-08,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert
+2012-04-22,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert
+2012-05-06,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2012-05-27,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert
+2012-06-10,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2012-06-24,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2012-07-01,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert
+2012-07-15,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert
+2012-07-29,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2012-08-19,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert
+2012-10-21,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2012-11-11,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert
+2012-11-25,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert
+2012-11-25,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2012-12-09,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2012-12-16,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert
+2013-01-13,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert
+2013-01-27,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2013-02-17,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert
+2013-03-03,Gandhinagar,Alert: Heavy monsoon and waterlogging reported in Gandhinagar.,Weather_Alert
+2013-03-24,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert
+2013-04-07,Gandhinagar,Health Emergency: Gandhinagar hospitals report surge in viral fever.,Medical_Alert

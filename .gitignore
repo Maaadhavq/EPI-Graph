@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.env
+bert_cache_*.pt
+*.pth
+.DS_Store

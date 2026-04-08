@@ -1,0 +1,7 @@
+Source,Target,Weight
+Ahmedabad,Gandhinagar,1.0
+Ahmedabad,Vadodara,0.9
+Ahmedabad,Surat,0.7
+Surat,Vadodara,0.8
+Rajkot,Ahmedabad,0.5
+Rajkot,Surat,0.4
