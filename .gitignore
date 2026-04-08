@@ -4,3 +4,8 @@ __pycache__/
 bert_cache_*.pt
 *.pth
 .DS_Store
+.ipynb_checkpoints/
+venv/
+env/
+Thumbs.db
+desktop.ini

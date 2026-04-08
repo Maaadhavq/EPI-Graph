@@ -1,61 +1,42 @@
 # EpiGraph-AI
 
-**Project Title:** EpiGraph-AI: A Spatiotemporal Multi-Modal Disease Outbreak Forecasting Framework using Bio-Medical NLP.
+> **Note:** This project is currently undergoing development and is a work in progress.
 
-## Overview
-This project integrates semantic risk signals from medical news with temporal case data to predict localized disease outbreaks using Graph Neural Networks and BioBERT.
+A deep learning pipeline for predicting **Epidemic Outbreaks** (specifically Dengue fever in this instance) using a combination of clinical/weather data and textual health news.
 
-## Project Structure
-- `data/`: Contains the dataset files (`processed_cases.csv`, `health_news.csv`, `connectivity.csv`).
-- `src/`: Source code.
-  - `config.py`: Configuration and file paths.
-  - `dataset.py`: Data loading utilities.
-- `notebooks/`: Jupyter notebooks for experimentation.
-- `requirements.txt`: Python dependencies.
+## What it does
 
-## Setup Instructions
+This model approaches outbreak prediction as an interconnected, spatio-temporal problem:
+- **Spatial context:** Models how districts are connected using **Graph Attention Networks (GAT)**.
+- **Temporal context:** Captures historical trends (weather metrics, past cases) using **LSTMs**.
+- **Contextual signals:** Extracts meaningful embeddings from local health news headlines using **BioBERT** and integrates them into the model pipeline.
 
-### 1. Install Python
-Ensure Python 3.8+ is installed and available in your system path.
+The architecture (`EpiGraphModel`) handles all of this simultaneously and is optimized with a Huber Loss function (to be robust against sudden huge spikes/outliers in cases).
 
-### 2. Install Dependencies
-Run the following command to install the required libraries:
+## How it works
+1. **BioBERT Extraction:** Reads news headlines and encodes them into 768-dim embeddings, which are then compressed to 32 dims via PCA for efficiency.
+2. **Graph Construction:** Builds an adjacency matrix showing connectivity between different districts.
+3. **Sequential combination:** Normalizes and bundles historical weather, cases, and news embeddings into rolling windows (7-day lookback to predict 1 day forward).
+4. **Prediction:** Evaluates on unseen data to test Mean Absolute Error, RMSE, and Outbreak Detection Accuracy.
+
+## Data Structure
+Expects the following files in a `data/` directory:
+```
+data/
+├── processed_cases.csv   # Target cases and weather variables (.MMAX, .MMIN, etc.)
+├── health_news.csv       # News headlines per date/district
+└── connectivity.csv      # Adjacency matrix for the districts (Source, Target, Weight)
+```
+
+## Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Verify Setup
-Run the verification script to check your environment and data loading:
-```bash
-python check_env.py
-```
-
-## Usage
-
-### Running the Pipeline
-To run the entire pipeline (Environment Check -> Training -> Visualization):
-```bash
-python run_pipeline.py
-```
-
-### Individual Steps
-1. **Training**:
-   ```bash
-   python src/train.py
-   ```
-   This will train the model and save `epigraph_model.pth`.
-
-2. **Dashboard**:
-   ```bash
-   python src/dashboard.py
-   ```
-   This will load the trained model and generate `dashboard_risk_plot.png`.
-
-## Project Structure
-- `data/`: Datasets.
-- `src/`:
-  - `dataset.py`: Data loading and preprocessing (BioBERT + Sliding Window).
-  - `model.py`: GAT + LSTM Model.
-  - `train.py`: Training loop.
-  - `preprocessing.py`: Encoder and Windowing classes.
-  - `config.py`: configuration.
+## How to use
+Run `notebooks/EpiGraph_AI.ipynb` top-to-bottom. It will:
+- Conduct exploratory data analysis
+- Generate and compress embeddings
+- Train the model using early stopping
+- Display final metrics and export evaluation charts
+- Save model weights to `epigraph_model_v2.pth`
