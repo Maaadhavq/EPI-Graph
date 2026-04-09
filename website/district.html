@@ -8,10 +8,117 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
 </head>
 <body>
-    <h1>EpiGraph-AI — District Detail</h1>
-    <p>Placeholder: District case tracker, weather, news, and advice will go here.</p>
-    <script src="js/data.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/district.js"></script>
+
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">
+        <div class="logo-dot">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+            </svg>
+        </div>
+        <span>EpiGraph<span class="logo-ai">AI</span></span>
+    </a>
+    <div class="nav-breadcrumb" id="breadcrumb"></div>
+    <div class="nav-links">
+        <a href="prevention.html" class="nav-link">Prevention</a>
+    </div>
+</nav>
+
+<div class="container district-page fade-up">
+
+    <div class="district-header">
+        <div class="dh-left">
+            <h1 id="districtName">—</h1>
+            <span class="risk-badge" id="riskBadge">—</span>
+        </div>
+        <div class="dh-right">
+            <div class="dh-cases" id="caseCount">—</div>
+            <div class="dh-label">predicted cases this week</div>
+        </div>
+    </div>
+
+    <!-- Weather Strip -->
+    <div class="weather-strip">
+        <div class="weather-card">
+            <div class="weather-icon">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            </div>
+            <div class="weather-val" id="tempMax">—</div>
+            <div class="weather-lbl">Max Temp</div>
+        </div>
+        <div class="weather-card">
+            <div class="weather-icon">
+                <svg viewBox="0 0 24 24"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>
+            </div>
+            <div class="weather-val" id="tempMin">—</div>
+            <div class="weather-lbl">Min Temp</div>
+        </div>
+        <div class="weather-card">
+            <div class="weather-icon">
+                <svg viewBox="0 0 24 24"><path d="M20 17.58A5 5 0 0 0 18 8h-1.26l-.27-1.04A8 8 0 1 0 4 16.25M8 16h.01M8 20h.01M12 18h.01M12 22h.01M16 16h.01M16 20h.01"/></svg>
+            </div>
+            <div class="weather-val" id="rainfall">—</div>
+            <div class="weather-lbl">Rainfall</div>
+        </div>
+        <div class="weather-card">
+            <div class="weather-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+            </div>
+            <div class="weather-val" id="humidityAM">—</div>
+            <div class="weather-lbl">AM Humidity</div>
+        </div>
+        <div class="weather-card">
+            <div class="weather-icon">
+                <svg viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/></svg>
+            </div>
+            <div class="weather-val" id="humidityPM">—</div>
+            <div class="weather-lbl">PM Humidity</div>
+        </div>
+    </div>
+
+    <div class="grid-2">
+        <!-- Explainable AI (XAI) Chart -->
+        <div class="chart-card">
+            <h3>AI Breakdown: Risk Factors</h3>
+            <canvas id="xaiChart"></canvas>
+        </div>
+
+        <!-- Case Chart -->
+        <div class="chart-card">
+            <h3>Weekly Case History</h3>
+            <canvas id="caseChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Advice -->
+    <div id="adviceCard" class="advice-card">
+        <h3>Loading recommendations...</h3>
+    </div>
+
+    <!-- News Feed -->
+    <div class="news-card">
+        <h3>News &amp; Alerts</h3>
+        <div class="news-items" id="newsFeed"></div>
+    </div>
+
+    <!-- Comparison Chart -->
+    <div class="chart-card">
+        <h3>All Districts — Risk Comparison</h3>
+        <canvas id="compareChart"></canvas>
+    </div>
+
+</div>
+
+<footer class="footer">
+    <p>&copy; 2026 EpiGraph-AI</p>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/district.js"></script>
 </body>
 </html>

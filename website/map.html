@@ -3,14 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EpiGraph-AI | District Map</title>
+    <title>EpiGraph-AI | Gujarat District Map</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <h1>EpiGraph-AI — Gujarat District Map</h1>
-    <p>Placeholder: 3D Gujarat map with clickable districts will go here.</p>
-    <script src="js/data.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/map.js"></script>
+
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">
+        <div class="logo-dot">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+            </svg>
+        </div>
+        <span>EpiGraph<span class="logo-ai">AI</span></span>
+    </a>
+    <div class="nav-breadcrumb" id="breadcrumb"></div>
+    <div class="nav-links">
+        <a href="prevention.html" class="nav-link">Prevention</a>
+    </div>
+</nav>
+
+<div class="map-page-layout">
+    <div class="map-main">
+        <div class="map-header">
+            <span class="eyebrow">Click a district to explore</span>
+            <h1>Gujarat Risk Map</h1>
+        </div>
+        <div class="map-scene" style="padding:0; flex:1; width:100%;">
+            <div class="map-svg-wrapper" id="gujaratWrapper" style="transform:rotateX(15deg) rotateY(-10deg);">
+                <svg id="gujaratMap" width="500" height="560"></svg>
+            </div>
+        </div>
+        <div id="mapTooltip" class="map-tooltip"></div>
+    </div>
+
+    <div class="map-sidebar">
+        <div class="sidebar-section">
+            <h3>Districts</h3>
+            <div id="districtList"></div>
+        </div>
+        <div class="sidebar-section">
+            <h3>Connectivity</h3>
+            <div id="connList"></div>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="margin-top: 4rem; padding-bottom: 4rem;">
+    <section class="section">
+        <h2 class="section-title">Risk Overview</h2>
+        <div id="riskCards" class="risk-cards-grid"></div>
+    </section>
+</div>
+
+<footer class="footer" style="margin-top:0;">
+    <p>&copy; 2026 EpiGraph-AI</p>
+</footer>
+
+<div id="mapTooltip" class="map-tooltip"></div>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://unpkg.com/topojson-client@3/dist/topojson-client.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/map.js"></script>
 </body>
 </html>
