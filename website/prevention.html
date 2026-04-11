@@ -11,8 +11,8 @@
 
 <nav class="navbar">
     <a href="index.html" class="nav-logo">
-        <div class="logo-dot">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <div class="logo-mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="18" cy="5" r="3"></circle>
                 <circle cx="6" cy="12" r="3"></circle>
                 <circle cx="18" cy="19" r="3"></circle>
@@ -23,14 +23,20 @@
         <span>EpiGraph<span class="logo-ai">AI</span></span>
     </a>
     <div class="nav-breadcrumb" id="breadcrumb"></div>
-    <div class="nav-links">
+    <div class="nav-links" style="display:flex;align-items:center;gap:1rem">
+        <span id="dataBadge" class="data-badge"></span>
         <a href="prevention.html" class="nav-link active">Prevention</a>
     </div>
 </nav>
 
+<!-- Live risk status bar -->
+<div id="riskStatusBar" class="risk-status-bar">
+    <span class="rsb-label">LOADING RISK DATA…</span>
+</div>
+
 <!-- Hero -->
 <div class="prev-hero fade-up">
-    <span class="eyebrow">Stay informed. Stay safe.</span>
+    <div class="hero-kicker">Stay informed. Stay safe.</div>
     <h1>Protect Yourself from Dengue</h1>
     <p>Dengue is a mosquito-borne disease affecting millions in India each year. Understanding symptoms and taking simple preventive steps can save lives.</p>
 </div>
@@ -74,14 +80,14 @@
             <div class="sym-icon">
                 <svg viewBox="0 0 24 24"><path d="M18.37 2.63L 14 7l-1.59-1.59a2 2 0 0 0-2.83 0L8 7l-5 5 3 3-4 4 1.5 1.5L7.5 16l3 3 5-5-1.41-1.41.17-.17 3-3z"/></svg>
             </div>
-            <h3>Muscle & Joint Pain</h3>
+            <h3>Muscle &amp; Joint Pain</h3>
             <p>Severe body aches, sometimes called "breakbone fever"</p>
         </div>
         <div class="symptom-card">
             <div class="sym-icon">
                 <svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z" fill="none"/><path d="M12 8v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
             </div>
-            <h3>Nausea & Vomiting</h3>
+            <h3>Nausea &amp; Vomiting</h3>
             <p>Persistent nausea, sometimes with vomiting</p>
         </div>
         <div class="symptom-card">
@@ -161,6 +167,15 @@
                 <p><em>Aedes</em> mosquitoes are most active in the early morning and late afternoon hours.</p>
             </div>
         </div>
+        <div class="tip-card">
+            <div class="tip-icon">
+                <svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            </div>
+            <div>
+                <h3>Store water safely</h3>
+                <p>Cover overhead tanks, drums, and buckets tightly. Change water in coolers at least once a week.</p>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -173,7 +188,7 @@
             </span>
             Seek Immediate Medical Attention
         </h2>
-        <p style="color:var(--text-secondary);margin-bottom:1.5rem;font-size:0.92rem;">Go to casualty or call emergency services if you notice any of these warning signs:</p>
+        <p style="color:var(--text-sub);margin-bottom:1.5rem;font-size:0.92rem;">Go to casualty or call emergency services if you notice any of these warning signs:</p>
         <ul class="warning-list">
             <li>Severe abdominal pain or tenderness</li>
             <li>Persistent vomiting (3+ times in 24 hours)</li>
@@ -204,7 +219,45 @@
                 <span class="emergency-num" style="font-size:1.5rem;">1800-180-1104</span>
                 <div class="emergency-lbl">National Health Helpline (Free)</div>
             </div>
+            <div class="emergency-item">
+                <div class="emergency-icon">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+                </div>
+                <span class="emergency-num">108</span>
+                <div class="emergency-lbl">Ambulance (Emergency)</div>
+            </div>
         </div>
+
+        <details class="district-contacts">
+            <summary>District Hospital Contacts ▾</summary>
+            <div class="district-contact-grid">
+                <div class="dc-item">
+                    <strong>Ahmedabad</strong>
+                    Civil Hospital, Asarwa<br>
+                    <span class="dc-tel">079-22681006</span>
+                </div>
+                <div class="dc-item">
+                    <strong>Gandhinagar</strong>
+                    General Hospital, Sector 12<br>
+                    <span class="dc-tel">079-23256490</span>
+                </div>
+                <div class="dc-item">
+                    <strong>Rajkot</strong>
+                    PDU Government Hospital<br>
+                    <span class="dc-tel">0281-2452001</span>
+                </div>
+                <div class="dc-item">
+                    <strong>Surat</strong>
+                    New Civil Hospital, Majura Gate<br>
+                    <span class="dc-tel">0261-2454949</span>
+                </div>
+                <div class="dc-item">
+                    <strong>Vadodara</strong>
+                    SSG Government Hospital<br>
+                    <span class="dc-tel">0265-2421111</span>
+                </div>
+            </div>
+        </details>
     </div>
 </div>
 
@@ -214,5 +267,57 @@
 </footer>
 
 <script src="js/app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var district = new URLSearchParams(window.location.search).get("district");
+    var riskHex   = { high: "#F85149", medium: "#D29922", low: "#3FB950" };
+    var riskShort = { high: "HIGH",    medium: "MED",     low: "LOW" };
+    var districts = ["Ahmedabad", "Gandhinagar", "Rajkot", "Surat", "Vadodara"];
+
+    apiFetch("/api/predictions").then(function(predictions) {
+        // ── Risk status bar ──────────────────────────────────────────────────
+        var bar = document.getElementById("riskStatusBar");
+        if (bar) {
+            var allLevels = districts.map(function(d) { return (predictions[d] || {}).level; });
+            var borderColor = allLevels.includes("high") ? "#F85149"
+                            : allLevels.includes("medium") ? "#D29922" : "#3FB950";
+            bar.style.borderLeftColor = borderColor;
+
+            var chips = districts.map(function(d) {
+                var p = predictions[d] || {};
+                var color = riskHex[p.level] || "#888";
+                return '<span class="rsb-chip">' +
+                    '<span class="rsb-dot" style="background:' + color + '"></span>' +
+                    '<span class="rsb-name">' + d + '</span>' +
+                    '<span class="rsb-pill" style="color:' + color + '">' + (riskShort[p.level] || "—") + '</span>' +
+                    '</span>';
+            }).join("");
+
+            bar.innerHTML =
+                '<span class="rsb-label">CURRENT RISK</span>' +
+                '<div class="rsb-chips">' + chips + '</div>' +
+                '<a class="rsb-map-link" href="map.html">View Risk Map \u2192</a>';
+        }
+
+        // ── District-aware hero heading ───────────────────────────────────
+        if (district && predictions[district]) {
+            var pred  = predictions[district];
+            var color = riskHex[pred.level] || "#888";
+            var urgency = pred.level === "high"   ? "Take immediate precautions now." :
+                          pred.level === "medium" ? "Stay alert and take preventive measures." :
+                                                    "Continue routine prevention steps.";
+            var heroH1 = document.querySelector(".prev-hero h1");
+            var heroP  = document.querySelector(".prev-hero > p");
+            if (heroH1) heroH1.textContent = "Prevention Guide — " + district;
+            if (heroP)  heroP.innerHTML =
+                '<strong style="color:' + color + '">' + district +
+                ' is currently ' + pred.level.toUpperCase() + ' RISK.</strong> ' + urgency;
+        }
+    }).catch(function() {
+        var bar = document.getElementById("riskStatusBar");
+        if (bar) bar.style.display = "none";
+    });
+});
+</script>
 </body>
 </html>

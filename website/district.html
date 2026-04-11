@@ -11,8 +11,8 @@
 
 <nav class="navbar">
     <a href="index.html" class="nav-logo">
-        <div class="logo-dot">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <div class="logo-mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="18" cy="5" r="3"></circle>
                 <circle cx="6" cy="12" r="3"></circle>
                 <circle cx="18" cy="19" r="3"></circle>
@@ -23,21 +23,23 @@
         <span>EpiGraph<span class="logo-ai">AI</span></span>
     </a>
     <div class="nav-breadcrumb" id="breadcrumb"></div>
-    <div class="nav-links">
+    <div class="nav-links" style="display:flex;align-items:center;gap:1rem">
+        <span id="dataBadge" class="data-badge"></span>
+        <a href="map.html" class="nav-link">District Map</a>
         <a href="prevention.html" class="nav-link">Prevention</a>
     </div>
 </nav>
 
-<div class="container district-page fade-up">
+<div class="container district-page fade-up" style="padding-bottom:56px;">
 
     <div class="district-header">
-        <div class="dh-left">
-            <h1 id="districtName">—</h1>
+        <div>
+            <h1 class="dh-name" id="districtName">—</h1>
             <span class="risk-badge" id="riskBadge">—</span>
         </div>
         <div class="dh-right">
             <div class="dh-cases" id="caseCount">—</div>
-            <div class="dh-label">predicted cases this week</div>
+            <div class="dh-label">AI predicted cases next week</div>
         </div>
     </div>
 
@@ -80,7 +82,7 @@
         </div>
     </div>
 
-    <div class="grid-2">
+    <div class="charts-row">
         <!-- Explainable AI (XAI) Chart -->
         <div class="chart-card">
             <h3>AI Breakdown: Risk Factors</h3>
@@ -106,7 +108,7 @@
     </div>
 
     <!-- Comparison Chart -->
-    <div class="chart-card">
+    <div class="chart-card" style="margin-bottom:1rem;">
         <h3>All Districts — Risk Comparison</h3>
         <canvas id="compareChart"></canvas>
     </div>

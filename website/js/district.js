@@ -1,13 +1,24 @@
 // district.js — District detail page logic
 
 document.addEventListener("DOMContentLoaded", async () => {
-    Chart.defaults.color = "#8888aa";
-    Chart.defaults.borderColor = "#1e293b";
+    Chart.defaults.color = "#8B949E";
+    Chart.defaults.borderColor = "#21262D";
+    Chart.defaults.font.family = "Inter, system-ui, sans-serif";
 
     const params = new URLSearchParams(window.location.search);
     const district = params.get("name") || "Ahmedabad";
 
     document.getElementById("districtName").textContent = district;
+
+    // Apply skeleton loaders while data fetches
+    ["tempMax","tempMin","rainfall","humidityAM","humidityPM"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add("skeleton");
+    });
+    ["xaiChart","caseChart","compareChart"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.style.minHeight = "120px"; el.classList.add("skeleton"); }
+    });
 
     try {
         const [predictions, casesData, weatherData, newsData, xaiData] = await Promise.all([
@@ -20,13 +31,33 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const pred = predictions[district];
 
+        // Remove skeletons
+        ["tempMax","tempMin","rainfall","humidityAM","humidityPM","xaiChart","caseChart","compareChart"].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.remove("skeleton");
+        });
+
         // Header
         if (pred) {
             const badge = document.getElementById("riskBadge");
             const labelMap = { high: "High Risk", medium: "Medium Risk", low: "Low Risk" };
             badge.textContent = labelMap[pred.level];
             badge.className = `risk-badge ${pred.level}`;
-            document.getElementById("caseCount").textContent = Math.round(pred.risk);
+            const caseEl = document.getElementById("caseCount");
+            caseEl.textContent = Math.round(pred.risk);
+            if (pred.uncertainty !== undefined) {
+                caseEl.insertAdjacentHTML("afterend",
+                    `<span class="case-uncertainty">± ${pred.uncertainty}</span>`);
+            }
+
+            // Trend subtext
+            if (pred.trend) {
+                const arrow = pred.trend === "up" ? "↑" : pred.trend === "down" ? "↓" : "→";
+                const trendCls = "trend-" + pred.trend;
+                const pct = pred.change_pct !== undefined ? " " + Math.abs(pred.change_pct) + "%" : "";
+                badge.insertAdjacentHTML("afterend",
+                    `<span class="district-trend-text ${trendCls}">${arrow}${pct} week-on-week</span>`);
+            }
         }
 
         // Weather
@@ -90,11 +121,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                     datasets: [{
                         label: 'Risk Contribution (%)',
                         data: factors.map(f => f.contribution_pct),
-                        backgroundColor: factors.map(f => 
-                            f.type === 'temporal' ? 'rgba(59, 130, 246, 0.7)' :
-                            f.type === 'weather' ? 'rgba(6, 182, 212, 0.7)' :
-                            f.type === 'spatial' ? 'rgba(239, 68, 68, 0.7)' :
-                            'rgba(16, 185, 129, 0.7)'
+                        backgroundColor: factors.map(f =>
+                            f.type === 'temporal'    ? 'rgba(230,135,58,0.75)' :
+                            f.type === 'weather'     ? 'rgba(63,185,80,0.75)'  :
+                            f.type === 'spatial'     ? 'rgba(248,81,73,0.75)'  :
+                                                       'rgba(139,148,158,0.6)'
                         ),
                         borderRadius: 4
                     }]
@@ -130,12 +161,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                     datasets: [{
                         label: "Dengue Cases",
                         data: casesData.cases.map(c => c.value),
-                        borderColor: "#3b82f6",
-                        backgroundColor: "rgba(59,130,246,0.08)",
+                        borderColor: "#E6873A",
+                        backgroundColor: "rgba(230,135,58,0.08)",
                         fill: true,
-                        tension: 0.4,
-                        pointRadius: 3,
-                        pointBackgroundColor: "#3b82f6"
+                        tension: 0.35,
+                        pointRadius: 2,
+                        pointBackgroundColor: "#E6873A"
                     }]
                 },
                 options: {
@@ -169,12 +200,21 @@ document.addEventListener("DOMContentLoaded", async () => {
             newsFeed.innerHTML = '<p class="no-data">No recent alerts for this district.</p>';
         }
 
-        // Comparison Chart
+        // Comparison Chart — use model risk score (actual differs per district)
         if (predictions) {
             const ctx2 = document.getElementById("compareChart").getContext("2d");
+            const colorHex = { high: "#F85149", medium: "#D29922", low: "#3FB950" };
             const labels = Object.keys(predictions);
-            const values = Object.values(predictions).map(p => p.risk);
-            const colorMap = { high: "#f43f5e", medium: "#f59e0b", low: "#10b981" };
+
+            // Build a composite risk index (0-100) so bars show meaningful differences
+            const maxRisk = Math.max(...Object.values(predictions).map(p => p.risk), 1);
+            const maxCases = Math.max(...Object.values(predictions).map(p => p.last_cases ?? 1), 1);
+            const values = labels.map(l => {
+                const p = predictions[l];
+                const modelPct  = (p.risk / maxRisk) * 70;
+                const casesPct  = ((p.last_cases ?? 0) / maxCases) * 30;
+                return Math.round(modelPct + casesPct);
+            });
 
             new Chart(ctx2, {
                 type: "bar",
@@ -184,23 +224,33 @@ document.addEventListener("DOMContentLoaded", async () => {
                         data: values,
                         backgroundColor: labels.map(l => {
                             const p = predictions[l];
-                            const base = colorMap[p.level] || "#3b82f6";
-                            return l === district ? base + "cc" : base + "33";
+                            const hex = colorHex[p.level] || "#888";
+                            return l === district ? hex + "dd" : hex + "44";
                         }),
-                        borderColor: labels.map(l => {
-                            const p = predictions[l];
-                            return colorMap[p.level] || "#3b82f6";
-                        }),
-                        borderWidth: 1.5,
-                        borderRadius: 5
+                        borderColor: labels.map(l => colorHex[predictions[l].level] || "#888"),
+                        borderWidth: l => labels[l] === district ? 2 : 1,
+                        borderRadius: 3
                     }]
                 },
                 options: {
                     responsive: true,
-                    plugins: { legend: { display: false } },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => {
+                                    const l = labels[ctx.dataIndex];
+                                    const p = predictions[l];
+                                    return `Risk Index: ${ctx.raw}  |  Last: ${p.last_cases ?? p.risk} cases`;
+                                }
+                            }
+                        }
+                    },
                     scales: {
-                        x: { grid: { color: "#1e293b" } },
-                        y: { beginAtZero: true, max: 100, grid: { color: "#1e293b" }, title: { display: true, text: "Predicted Cases" } }
+                        x: { grid: { color: "#21262D" }, ticks: { color: "#8B949E" } },
+                        y: { beginAtZero: true, max: 105, grid: { color: "#21262D" },
+                             ticks: { color: "#8B949E" },
+                             title: { display: true, text: "Risk Index (AI)", color: "#484F58", font: { size: 11 } } }
                     }
                 }
             });

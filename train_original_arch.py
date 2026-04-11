@@ -2,14 +2,21 @@
 EpiGraph-AI: Retrain using the EXACT original architecture decoded from epigraph_model.pth.
 
 Architecture:
-  - 13 base features (6 raw + 7 engineered)
+  - 19 base features (8 raw + 11 engineered)  [v3: was 13 = 6+7]
   - 16-dim learned BERT projection (bert_projection layer)
-  - input_dim = 29, HIDDEN_DIM = 128
+  - input_dim = 35, HIDDEN_DIM = 128          [v3: was 29]
   - GATv2(2 heads) -> GATv2(1 head) -> LSTM(2 layer) -> LayerNorm
   - Temporal attention (Linear 128->1)
-  - Skip path: Linear(13,64)->ReLU->Dropout->Linear(64,32)
+  - Skip path: Linear(19,64)->ReLU->Dropout->Linear(64,32)
   - Head: Linear(160,64)->ReLU->Dropout->Linear(64,1)
-  - LR=0.001, CosineAnnealingWarmRestarts(T_0=30, T_mult=2)
+
+Improvements v3 (over v2):
+  B1 - Seasonal encoding: sin/cos of week-of-year (+2 raw features → 8 total)
+  B2 - Extended lags: shift(3) + shift(4) (+2 engineered → 9 total)
+  B3 - Rolling weather: 4-week mean rain + 4-week mean rh_am (+2 engineered → 11 total)
+  B4 - Outbreak-weighted loss: 3× weight on top-quartile outbreak weeks
+  A1 - PCA initialization for bert_projection (retained from v2)
+  A2 - Periodic BERT re-projection every REPROJECT_INTERVAL epochs (retained from v2)
 """
 
 import os, warnings
@@ -22,6 +29,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.metrics import mean_absolute_error, f1_score, r2_score, accuracy_score
 from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
 from torch_geometric.nn import GATv2Conv
 import joblib
 warnings.filterwarnings('ignore')
@@ -31,17 +39,18 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Device: {device}")
 
 # ── Hyperparameters ────────────────────────────────────────────────────────────
-HIDDEN_DIM      = 128
-BERT_PROJ_DIM   = 16
-NUM_BASE_FEATS  = 13
-INPUT_DIM       = NUM_BASE_FEATS + BERT_PROJ_DIM  # 29
-WINDOW_SIZE     = 7
-EPOCHS          = 100
-LR              = 0.001
-WEIGHT_DECAY    = 1e-4
-PATIENCE        = 20
-BATCH_SIZE      = 16
-DROPOUT         = 0.4
+HIDDEN_DIM          = 128
+BERT_PROJ_DIM       = 16
+NUM_BASE_FEATS      = 19    # v3: 8 raw (6+2 seasonal) + 11 engineered (7+2 lags+2 weather)
+INPUT_DIM           = NUM_BASE_FEATS + BERT_PROJ_DIM  # 35
+WINDOW_SIZE         = 7
+EPOCHS              = 200       # increased from 100
+LR                  = 0.0005    # reduced from 0.001 for more stable convergence
+WEIGHT_DECAY        = 1e-4
+PATIENCE            = 40        # increased from 20
+BATCH_SIZE          = 16
+DROPOUT             = 0.3       # reduced from 0.4 (eval mode disables dropout; lower = better fit)
+REPROJECT_INTERVAL  = 5         # re-project BERT every N epochs so bert_projection learns
 
 # ── Load Data ──────────────────────────────────────────────────────────────────
 cases_df = pd.read_csv(os.path.join(BASE, "data", "processed_cases.csv"))
@@ -77,24 +86,43 @@ for ti, date in enumerate(dates):
     raw_feat[ti] = day[feature_cols].values
     raw_tgt[ti]  = day[['dengue']].values
 
-# ── Engineered Features (+7) → total 13 base features ─────────────────────────
-dengue_col = raw_feat[:, :, 0]   # dengue is col 0 in feature_cols
-eng = np.zeros((T, num_nodes, 7))
+# B1 ── Seasonal encoding: sin/cos of week-of-year (+2 features → 8 raw total) ─
+date_idx  = pd.to_datetime(dates)
+week_nums = date_idx.isocalendar().week.values.astype(float)  # (T,)
+sin_week  = np.sin(2 * np.pi * week_nums / 52)
+cos_week  = np.cos(2 * np.pi * week_nums / 52)
+seasonal  = np.stack([sin_week, cos_week], axis=1)                         # (T, 2)
+seasonal_feat = np.tile(seasonal[:, np.newaxis, :], (1, num_nodes, 1))    # (T, N, 2)
+raw_feat  = np.concatenate([raw_feat, seasonal_feat], axis=2)             # (T, N, 8)
+print(f"[v3] Added seasonal features → raw_feat shape: {raw_feat.shape}")
+
+# B2+B3 ── Engineered Features (+11) → total 19 base features ──────────────────
+dengue_col = raw_feat[:, :, 0]   # dengue is still col 0
+rain_col   = raw_feat[:, :, 3]   # rain (col 3 of original 6)
+rh_col     = raw_feat[:, :, 4]   # rh_am (col 4 of original 6)
+eng = np.zeros((T, num_nodes, 11))
 for ni in range(num_nodes):
-    s = pd.Series(dengue_col[:, ni])
-    eng[:,ni,0] = s.rolling(4,  min_periods=1).mean()
-    eng[:,ni,1] = s.rolling(8,  min_periods=1).mean()
-    eng[:,ni,2] = s.rolling(4,  min_periods=1).std().fillna(0)
-    eng[:,ni,3] = s.shift(1).fillna(0)
-    eng[:,ni,4] = s.shift(2).fillna(0)
-    eng[:,ni,5] = s.diff().fillna(0)
-    eng[:,ni,6] = np.log1p(dengue_col[:, ni])
+    s    = pd.Series(dengue_col[:, ni])
+    rain = pd.Series(rain_col[:, ni])
+    rh   = pd.Series(rh_col[:, ni])
+    eng[:,ni,0]  = s.rolling(4,  min_periods=1).mean()       # 4-week rolling mean
+    eng[:,ni,1]  = s.rolling(8,  min_periods=1).mean()       # 8-week rolling mean
+    eng[:,ni,2]  = s.rolling(4,  min_periods=1).std().fillna(0)  # 4-week rolling std
+    eng[:,ni,3]  = s.shift(1).fillna(0)                      # lag-1
+    eng[:,ni,4]  = s.shift(2).fillna(0)                      # lag-2
+    eng[:,ni,5]  = s.diff().fillna(0)                        # week-over-week diff
+    eng[:,ni,6]  = np.log1p(dengue_col[:, ni])               # log-transform
+    eng[:,ni,7]  = s.shift(3).fillna(0)                      # B2: lag-3
+    eng[:,ni,8]  = s.shift(4).fillna(0)                      # B2: lag-4
+    eng[:,ni,9]  = rain.rolling(4, min_periods=1).mean()     # B3: 4-week mean rainfall
+    eng[:,ni,10] = rh.rolling(4, min_periods=1).mean()       # B3: 4-week mean humidity
 
-feat13 = np.concatenate([raw_feat, eng], axis=2)   # (T, N, 13)
+feat_base = np.concatenate([raw_feat, eng], axis=2)   # (T, N, 19)
+print(f"[v3] Feature matrix shape: {feat_base.shape}  (19 base = 8 raw + 11 engineered)")
 
-# ── Normalize 13 base features ─────────────────────────────────────────────────
+# ── Normalize 19 base features ─────────────────────────────────────────────────
 base_scaler = StandardScaler()
-feat13_n = base_scaler.fit_transform(feat13.reshape(T*num_nodes, 13)).reshape(T, num_nodes, 13)
+feat13_n = base_scaler.fit_transform(feat_base.reshape(T*num_nodes, NUM_BASE_FEATS)).reshape(T, num_nodes, NUM_BASE_FEATS)
 joblib.dump(base_scaler, os.path.join(BASE, 'base_scaler.pkl'))
 
 # ── Load BERT embeddings (raw 768-dim) ─────────────────────────────────────────
@@ -108,7 +136,7 @@ else:
     exit(1)
 
 raw_emb_t = torch.tensor(raw_emb.reshape(T*num_nodes, 768), dtype=torch.float32)  # (T*N, 768)
-print(f"Base features: {feat13.shape}, BERT: {raw_emb.shape}")
+print(f"Base features: {feat_base.shape}, BERT: {raw_emb.shape}")
 
 # ── Targets ────────────────────────────────────────────────────────────────────
 target_scaler = StandardScaler()
@@ -185,48 +213,80 @@ model = EpiGraphModelV3(
 ).to(device)
 print(f"Parameters: {sum(p.numel() for p in model.parameters()):,}")
 
-# ── Build windowed dataset (project BERT inside dataloader for memory) ─────────
-# Pre-project all BERT at once using the model's bert_projection
-model.eval()
-with torch.no_grad():
-    bert_proj = model.bert_projection(raw_emb_t.to(device)).cpu().numpy()   # (T*N, 16)
-bert_proj_3d = bert_proj.reshape(T, num_nodes, BERT_PROJ_DIM)
+# ── Initialize bert_projection with PCA (replaces random init) ────────────────
+# Random initialization means BERT features start as noise. PCA gives meaningful
+# directions of maximum variance, warm-starting the projection layer.
+print("Initializing bert_projection with PCA components...")
+pca_init = PCA(n_components=BERT_PROJ_DIM)
+pca_init.fit(raw_emb.reshape(T * num_nodes, 768))
+W_pca = torch.tensor(pca_init.components_, dtype=torch.float32)      # (16, 768)
+b_pca = torch.tensor(
+    -(pca_init.mean_ @ pca_init.components_.T), dtype=torch.float32  # (16,)
+)
+model.bert_projection[0].weight.data = W_pca
+model.bert_projection[0].bias.data   = b_pca
+print(f"PCA init done. Explained variance: {pca_init.explained_variance_ratio_.sum()*100:.1f}%")
 
-combined = np.concatenate([feat13_n, bert_proj_3d], axis=2)   # (T, N, 29)
-x_all = torch.tensor(combined, dtype=torch.float32)
+# ── Helper: build windowed dataset from current bert_projection ────────────────
+def build_datasets():
+    """Project BERT with current model weights, build windows and splits."""
+    model.eval()
+    with torch.no_grad():
+        bp = model.bert_projection(raw_emb_t.to(device)).cpu().numpy()  # (T*N, 16)
+    bp3d = bp.reshape(T, num_nodes, BERT_PROJ_DIM)
+    comb = np.concatenate([feat13_n, bp3d], axis=2)   # (T, N, 35)
+    xa   = torch.tensor(comb, dtype=torch.float32)
 
-Xw, Yw = [], []
-for i in range(T - WINDOW_SIZE):
-    Xw.append(x_all[i:i+WINDOW_SIZE])
-    Yw.append(y_all[i+WINDOW_SIZE:i+WINDOW_SIZE+1])
-Xw, Yw = torch.stack(Xw), torch.stack(Yw)
+    Xw_l, Yw_l = [], []
+    for i in range(T - WINDOW_SIZE):
+        Xw_l.append(xa[i:i+WINDOW_SIZE])
+        Yw_l.append(y_all[i+WINDOW_SIZE:i+WINDOW_SIZE+1])
+    Xww = torch.stack(Xw_l); Yww = torch.stack(Yw_l)
 
-n_total = len(Xw)
-tr = int(n_total * 0.70); va = int(n_total * 0.85)
-x_tr, y_tr = Xw[:tr].to(device),    Yw[:tr].to(device)
-x_va, y_va = Xw[tr:va].to(device),  Yw[tr:va].to(device)
-x_te, y_te = Xw[va:].to(device),    Yw[va:].to(device)
-print(f"Train:{len(x_tr)}  Val:{len(x_va)}  Test:{len(x_te)}")
+    nt = len(Xww); _tr = int(nt * 0.70); _va = int(nt * 0.85)
+    _x_tr = Xww[:_tr].to(device);    _y_tr = Yww[:_tr].to(device)
+    _x_va = Xww[_tr:_va].to(device); _y_va = Yww[_tr:_va].to(device)
+    _x_te = Xww[_va:].to(device);    _y_te = Yww[_va:].to(device)
+    _tdl = DataLoader(TensorDataset(_x_tr, _y_tr), batch_size=BATCH_SIZE, shuffle=True)
+    _vdl = DataLoader(TensorDataset(_x_va, _y_va), batch_size=BATCH_SIZE, shuffle=False)
+    _edl = DataLoader(TensorDataset(_x_te, _y_te), batch_size=BATCH_SIZE, shuffle=False)
+    return _tdl, _vdl, _edl
 
-train_dl = DataLoader(TensorDataset(x_tr, y_tr), batch_size=BATCH_SIZE, shuffle=True)
-val_dl   = DataLoader(TensorDataset(x_va, y_va), batch_size=BATCH_SIZE, shuffle=False)
-test_dl  = DataLoader(TensorDataset(x_te, y_te), batch_size=BATCH_SIZE, shuffle=False)
+train_dl, val_dl, test_dl = build_datasets()
+print(f"Train:{len(train_dl.dataset)}  Val:{len(val_dl.dataset)}  Test:{len(test_dl.dataset)}")
 
 # ── Training ───────────────────────────────────────────────────────────────────
-optimizer = optim.AdamW(model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
-criterion = nn.HuberLoss(delta=1.0)
-scheduler = optim.lr_scheduler.CosineAnnealingWarmRestarts(optimizer, T_0=30, T_mult=2)
+optimizer  = optim.AdamW(model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
+huber_base = nn.HuberLoss(delta=1.0, reduction='none')   # B4: element-wise for weighting
+scheduler  = optim.lr_scheduler.CosineAnnealingWarmRestarts(optimizer, T_0=30, T_mult=2)
+
+# B4 ── Outbreak weight threshold: 75th percentile of scaled targets ────────────
+_q75_scaled     = float(np.quantile(tgt_n.flatten(), 0.75))  # in normalized space
+OUTBREAK_WEIGHT = 3.0   # 3× loss weight on outbreak weeks
+
+def weighted_loss(pred, target):
+    """B4: Huber loss with 3× weight on outbreak-level weeks."""
+    elem = huber_base(pred, target.squeeze(1))     # (B, N)
+    tgt_vals = target.squeeze(1).squeeze(-1)       # (B, N)
+    weights = torch.where(tgt_vals > _q75_scaled,
+                          torch.full_like(tgt_vals, OUTBREAK_WEIGHT),
+                          torch.ones_like(tgt_vals))
+    return (elem * weights).mean()
 
 best_val, patience_counter, best_state = float('inf'), 0, None
 train_losses, val_losses = [], []
 
-print(f"\nTraining (HIDDEN={HIDDEN_DIM}, LR={LR}, CosineWarmRestart T0=30)...")
+print(f"\nTraining v3 (HIDDEN={HIDDEN_DIM}, INPUT={INPUT_DIM}, LR={LR}, outbreak_weight={OUTBREAK_WEIGHT})...")
 for epoch in range(1, EPOCHS+1):
+    # Periodically re-project BERT so bert_projection actually learns
+    if epoch > 1 and (epoch - 1) % REPROJECT_INTERVAL == 0:
+        train_dl, val_dl, test_dl = build_datasets()
+
     model.train()
     tl = 0
     for xb, yb in train_dl:
         optimizer.zero_grad()
-        loss = criterion(model(xb, edge_index), yb.squeeze(1))
+        loss = weighted_loss(model(xb, edge_index), yb)   # B4 weighted loss
         loss.backward()
         nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         optimizer.step()
@@ -257,6 +317,8 @@ for epoch in range(1, EPOCHS+1):
         print(f"  Early stop at epoch {epoch}"); break
 
 model.load_state_dict(best_state); model.to(device)
+# Rebuild test_dl with best model's bert_projection
+_, _, test_dl = build_datasets()
 
 # ── Evaluation ─────────────────────────────────────────────────────────────────
 def evaluate(dl, label):
@@ -289,13 +351,15 @@ r2_va = evaluate(val_dl,   "Val:  ")
 r2_te = evaluate(test_dl,  "Test: ")
 
 # ── Save ───────────────────────────────────────────────────────────────────────
-out = os.path.join(BASE, 'epigraph_model_v2.pth')
+# v3 model: new features (19 base = 8 raw + 11 eng) + outbreak-weighted loss
+out = os.path.join(BASE, 'epigraph_model_v3.pth')
 torch.save(model.state_dict(), out)
 
-# Also save base_scaler for app.py
-joblib.dump(base_scaler, os.path.join(BASE, 'base_scaler.pkl'))
+# Save scalers (base_scaler now fitted on 19-feature matrix)
+joblib.dump(base_scaler,   os.path.join(BASE, 'base_scaler.pkl'))
 joblib.dump(target_scaler, os.path.join(BASE, 'target_scaler_v3.pkl'))
 
-print(f"\nSaved: {out}")
-print(f"Saved: base_scaler.pkl, target_scaler_v3.pkl")
+print(f"\nSaved: {out}  (v3 — 19 base features, seasonal + extended lags + rolling weather + outbreak loss)")
+print(f"Saved: base_scaler.pkl  (fitted on 19 features), target_scaler_v3.pkl")
 print(f"Val R2={r2_va:.4f}  Test R2={r2_te:.4f}")
+print("\nTo deploy: rename epigraph_model_v3.pth → epigraph_model_v2.pth  (or update MODEL_PATH in app.py)")

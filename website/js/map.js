@@ -26,7 +26,7 @@ function riskClass(level) {
 }
 
 function levelColor(level) {
-    return { high: "var(--risk-high)", medium: "var(--risk-medium)", low: "var(--risk-low)" }[level] || "#888";
+    return { high: "var(--risk-hi)", medium: "var(--risk-md)", low: "var(--risk-lo)" }[level] || "#888";
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -43,6 +43,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         const svg = d3.select("#gujaratMap");
         const width = 500, height = 560;
         svg.attr("viewBox", `0 0 ${width} ${height}`);
+
+        // Add glow filter defs
+        addGlowFilters(svg);
 
         const projection = d3.geoMercator().fitSize([width - 20, height - 20], geoData);
         const pathGen = d3.geoPath().projection(projection);
@@ -75,7 +78,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const t = centroids[edge.target];
             if (s && t && !s.some(isNaN) && !t.some(isNaN)) {
                 svg.append("line")
-                    .attr("class", "conn-line")
+                    .attr("class", "conn-line-animated")
                     .attr("x1", s[0]).attr("y1", s[1])
                     .attr("x2", t[0]).attr("y2", t[1]);
             }
@@ -96,6 +99,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const rc = pred ? riskClass(pred.level) : "";
                 return `guj-district ${rc}`;
             })
+            .attr("filter", f => {
+                const name = normalizeName(f.properties.district || f.properties.DISTRICT || "");
+                const pred = predictions[name];
+                return pred ? glowFilter(pred.level) : null;
+            })
             .attr("d", pathGen)
             .on("mousemove", function (event, f) {
                 const name = normalizeName(f.properties.district || f.properties.DISTRICT || "");
@@ -107,7 +115,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 tooltip.innerHTML = `
                     <strong>${name}</strong>
                     <span class="tooltip-badge" style="background:${levelColor(pred.level)}22;color:${levelColor(pred.level)}">${pred.level.toUpperCase()}</span>
-                    <div style="color:var(--text-secondary);font-size:0.8rem;margin-top:4px">${Math.round(pred.risk)} predicted cases</div>
+                    <div style="color:var(--text-sub);font-size:0.8rem;margin-top:4px">${Math.round(pred.risk)} predicted · ${pred.last_cases} avg</div>
                 `;
             })
             .on("mouseleave", () => { tooltip.style.display = "none"; })
@@ -133,9 +141,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                 svg.append("text")
                     .attr("class", "guj-sublabel")
                     .attr("x", c[0]).attr("y", c[1] + 11)
-                    .text(`${Math.round(pred.risk)} cases`);
+                    .text(`${Math.round(pred.risk)} predicted`);
             }
         });
+
+        // Pulse rings on target district centroids
+        drawPulseRings(svg, centroids, predictions);
 
         // Sidebar — district list
         const districtList = document.getElementById("districtList");
@@ -146,10 +157,13 @@ document.addEventListener("DOMContentLoaded", async () => {
             const row = document.createElement("div");
             row.className = "district-row";
             row.onclick = () => window.location.href = `district.html?name=${name}`;
+            const arrow = pred.trend === "up" ? "↑" : pred.trend === "down" ? "↓" : "→";
+            const trendCls = "trend-" + (pred.trend || "stable");
             row.innerHTML = `
-                <div class="district-dot ${pred.level}"></div>
+                <div class="d-bar ${pred.level}"></div>
                 <span class="district-row-name">${name}</span>
                 <span class="district-row-cases">${Math.round(pred.risk)}</span>
+                <span class="${trendCls}" style="font-size:0.65rem;margin-left:2px">${arrow}</span>
             `;
             districtList.appendChild(row);
         });
@@ -173,11 +187,15 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const card = document.createElement("div");
                 card.className = `risk-card ${data.level}`;
                 card.onclick = () => window.location.href = `district.html?name=${district}`;
+                const dArrow = data.trend === "up" ? "↑" : data.trend === "down" ? "↓" : "→";
+                const dTrendCls = "trend-" + (data.trend || "stable");
+                const dChangeTxt = data.change_pct !== undefined ? Math.abs(data.change_pct) + "% w-o-w" : "";
                 card.innerHTML = `
-                    <div class="rc-district">${district}</div>
-                    <span class="risk-badge ${data.level}">${levelLabel[data.level]}</span>
-                    <div class="rc-cases">${Math.round(data.risk)}</div>
-                    <div class="rc-label">predicted cases</div>
+                    <div class="rc-name">${district}</div>
+                    <span class="risk-pill ${data.level}">${levelLabel[data.level]}</span>
+                    <div class="rc-num">${Math.round(data.risk)}<span style="color:var(--text-muted);font-family:var(--font-mono);font-size:0.6rem;font-weight:400;margin-left:4px">${data.uncertainty !== undefined ? '± ' + data.uncertainty : ''}</span></div>
+                    <div class="rc-label">AI predicted · <span style="color:var(--text-sub)">${data.last_cases} avg</span></div>
+                    <div class="${dTrendCls}" style="font-size:0.68rem;margin-top:0.3rem">${dArrow} ${dChangeTxt}</div>
                 `;
                 cardContainer.appendChild(card);
             });

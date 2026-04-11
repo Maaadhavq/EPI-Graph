@@ -99,6 +99,16 @@ const MOCK_DATA = {
     }
 };
 
+function setDataBadge(dateStr) {
+    var el = document.getElementById("dataBadge");
+    if (!el || !dateStr) return;
+    try {
+        var d = new Date(dateStr);
+        var label = d.toLocaleString("default", { month: "short", year: "numeric" });
+        el.textContent = "Data: " + label;
+    } catch(e) { el.textContent = "Data: " + dateStr; }
+}
+
 async function apiFetch(endpoint) {
     if (USE_MOCK) {
         await new Promise(r => setTimeout(r, 200));
@@ -126,7 +136,9 @@ async function apiFetch(endpoint) {
 
     const res = await fetch(endpoint);
     if (!res.ok) throw new Error(`API error: ${res.status}`);
-    return res.json();
+    const data = await res.json();
+    if (data && data.data_as_of) setDataBadge(data.data_as_of);
+    return data;
 }
 
 function initBreadcrumb() {

@@ -1,11 +1,29 @@
+# Python
 __pycache__/
 *.pyc
+*.pyo
 .env
-bert_cache_*.pt
-*.pth
-.DS_Store
-.ipynb_checkpoints/
 venv/
 env/
+
+# Model weights & caches (large binary files — store separately)
+*.pth
+*.pt
+*.pkl
+
+# Generated reports & docs
+*.pdf
+*.docx
+
+# Logs & temp files
+*.log
+server_log*.txt
+temp_*.txt
+
+# OS
+.DS_Store
 Thumbs.db
 desktop.ini
+
+# Jupyter
+.ipynb_checkpoints/
