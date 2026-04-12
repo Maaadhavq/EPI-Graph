@@ -11,9 +11,9 @@ Architecture:
   - Head: Linear(160,64)->ReLU->Dropout->Linear(64,1)
 
 Improvements v3 (over v2):
-  B1 - Seasonal encoding: sin/cos of week-of-year (+2 raw features → 8 total)
-  B2 - Extended lags: shift(3) + shift(4) (+2 engineered → 9 total)
-  B3 - Rolling weather: 4-week mean rain + 4-week mean rh_am (+2 engineered → 11 total)
+  B1 - Seasonal encoding: sin/cos of week-of-year (+2 raw features -> 8 total)
+  B2 - Extended lags: shift(3) + shift(4) (+2 engineered -> 9 total)
+  B3 - Rolling weather: 4-week mean rain + 4-week mean rh_am (+2 engineered -> 11 total)
   B4 - Outbreak-weighted loss: 3× weight on top-quartile outbreak weeks
   A1 - PCA initialization for bert_projection (retained from v2)
   A2 - Periodic BERT re-projection every REPROJECT_INTERVAL epochs (retained from v2)
@@ -44,13 +44,13 @@ BERT_PROJ_DIM       = 16
 NUM_BASE_FEATS      = 19    # v3: 8 raw (6+2 seasonal) + 11 engineered (7+2 lags+2 weather)
 INPUT_DIM           = NUM_BASE_FEATS + BERT_PROJ_DIM  # 35
 WINDOW_SIZE         = 7
-EPOCHS              = 200       # increased from 100
+EPOCHS              = 350       # more epochs for better convergence
 LR                  = 0.0005    # reduced from 0.001 for more stable convergence
 WEIGHT_DECAY        = 1e-4
-PATIENCE            = 40        # increased from 20
-BATCH_SIZE          = 16
-DROPOUT             = 0.3       # reduced from 0.4 (eval mode disables dropout; lower = better fit)
-REPROJECT_INTERVAL  = 5         # re-project BERT every N epochs so bert_projection learns
+PATIENCE            = 60        # longer patience to avoid premature stopping
+BATCH_SIZE          = 8         # smaller batches for better gradient diversity
+DROPOUT             = 0.25      # lower dropout: small dataset benefits from less regularization
+REPROJECT_INTERVAL  = 20        # less frequent BERT reprojection for stability
 
 # ── Load Data ──────────────────────────────────────────────────────────────────
 cases_df = pd.read_csv(os.path.join(BASE, "data", "processed_cases.csv"))
@@ -86,7 +86,7 @@ for ti, date in enumerate(dates):
     raw_feat[ti] = day[feature_cols].values
     raw_tgt[ti]  = day[['dengue']].values
 
-# B1 ── Seasonal encoding: sin/cos of week-of-year (+2 features → 8 raw total) ─
+# B1 ── Seasonal encoding: sin/cos of week-of-year (+2 features -> 8 raw total) ─
 date_idx  = pd.to_datetime(dates)
 week_nums = date_idx.isocalendar().week.values.astype(float)  # (T,)
 sin_week  = np.sin(2 * np.pi * week_nums / 52)
@@ -94,9 +94,9 @@ cos_week  = np.cos(2 * np.pi * week_nums / 52)
 seasonal  = np.stack([sin_week, cos_week], axis=1)                         # (T, 2)
 seasonal_feat = np.tile(seasonal[:, np.newaxis, :], (1, num_nodes, 1))    # (T, N, 2)
 raw_feat  = np.concatenate([raw_feat, seasonal_feat], axis=2)             # (T, N, 8)
-print(f"[v3] Added seasonal features → raw_feat shape: {raw_feat.shape}")
+print(f"[v3] Added seasonal features -> raw_feat shape: {raw_feat.shape}")
 
-# B2+B3 ── Engineered Features (+11) → total 19 base features ──────────────────
+# B2+B3 ── Engineered Features (+11) -> total 19 base features ──────────────────
 dengue_col = raw_feat[:, :, 0]   # dengue is still col 0
 rain_col   = raw_feat[:, :, 3]   # rain (col 3 of original 6)
 rh_col     = raw_feat[:, :, 4]   # rh_am (col 4 of original 6)
@@ -213,6 +213,26 @@ model = EpiGraphModelV3(
 ).to(device)
 print(f"Parameters: {sum(p.numel() for p in model.parameters()):,}")
 
+# ── Transfer learning: warm-start from v2 weights (compatible layers only) ────
+# v2 and v3 share the same HIDDEN_DIM=128. Only gat1 (input_dim changed 29->35)
+# and skip_fc (num_base changed 13->19) differ. Copy everything else from v2.
+_v2_path = os.path.join(BASE, "epigraph_model_v2.pth")
+if os.path.exists(_v2_path):
+    print("Transfer learning: loading compatible v2 weights...")
+    v2_state = torch.load(_v2_path, map_location="cpu", weights_only=False)
+    v3_state  = model.state_dict()
+    transferred, skipped = [], []
+    for k, v in v2_state.items():
+        if k in v3_state and v3_state[k].shape == v.shape:
+            v3_state[k] = v
+            transferred.append(k)
+        else:
+            skipped.append(k)
+    model.load_state_dict(v3_state)
+    print(f"  Transferred {len(transferred)} tensors, re-init {len(skipped)}: {skipped}")
+else:
+    print("v2 weights not found — training from random init")
+
 # ── Initialize bert_projection with PCA (replaces random init) ────────────────
 # Random initialization means BERT features start as noise. PCA gives meaningful
 # directions of maximum variance, warm-starting the projection layer.
@@ -258,19 +278,23 @@ print(f"Train:{len(train_dl.dataset)}  Val:{len(val_dl.dataset)}  Test:{len(test
 # ── Training ───────────────────────────────────────────────────────────────────
 optimizer  = optim.AdamW(model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
 huber_base = nn.HuberLoss(delta=1.0, reduction='none')   # B4: element-wise for weighting
-scheduler  = optim.lr_scheduler.CosineAnnealingWarmRestarts(optimizer, T_0=30, T_mult=2)
+scheduler  = optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=15, factor=0.5, min_lr=1e-6)
 
 # B4 ── Outbreak weight threshold: 75th percentile of scaled targets ────────────
 _q75_scaled     = float(np.quantile(tgt_n.flatten(), 0.75))  # in normalized space
-OUTBREAK_WEIGHT = 3.0   # 3× loss weight on outbreak weeks
+OUTBREAK_WEIGHT = 2.0   # 2× weight on outbreak weeks — less aggressive than 3× on small dataset
 
 def weighted_loss(pred, target):
-    """B4: Huber loss with 3× weight on outbreak-level weeks."""
-    elem = huber_base(pred, target.squeeze(1))     # (B, N)
-    tgt_vals = target.squeeze(1).squeeze(-1)       # (B, N)
-    weights = torch.where(tgt_vals > _q75_scaled,
-                          torch.full_like(tgt_vals, OUTBREAK_WEIGHT),
-                          torch.ones_like(tgt_vals))
+    """B4: Huber loss with 4× weight on outbreak-level weeks.
+    pred:   (B, N, 1) — model output
+    target: (B, 1, N, 1) — from DataLoader (stacked (1,N,1) slices)
+    """
+    pred_sq = pred.squeeze(-1)                  # (B, N)
+    tgt_sq  = target.squeeze(1).squeeze(-1)     # (B, N) — squeeze both extra dims
+    elem    = huber_base(pred_sq, tgt_sq)       # (B, N)
+    weights = torch.where(tgt_sq > _q75_scaled,
+                          torch.full_like(tgt_sq, OUTBREAK_WEIGHT),
+                          torch.ones_like(tgt_sq))
     return (elem * weights).mean()
 
 best_val, patience_counter, best_state = float('inf'), 0, None
@@ -293,15 +317,15 @@ for epoch in range(1, EPOCHS+1):
         tl += loss.item()
     avg_train = tl / len(train_dl)
     train_losses.append(avg_train)
-    scheduler.step(epoch)
 
     model.eval()
     vl = 0
     with torch.no_grad():
         for xb, yb in val_dl:
-            vl += criterion(model(xb, edge_index), yb.squeeze(1)).item()
+            vl += weighted_loss(model(xb, edge_index), yb).item()
     avg_val = vl / max(len(val_dl), 1)
     val_losses.append(avg_val)
+    scheduler.step(avg_val)   # ReduceLROnPlateau needs val loss
 
     if avg_val < best_val:
         best_val = avg_val; patience_counter = 0
@@ -362,4 +386,4 @@ joblib.dump(target_scaler, os.path.join(BASE, 'target_scaler_v3.pkl'))
 print(f"\nSaved: {out}  (v3 — 19 base features, seasonal + extended lags + rolling weather + outbreak loss)")
 print(f"Saved: base_scaler.pkl  (fitted on 19 features), target_scaler_v3.pkl")
 print(f"Val R2={r2_va:.4f}  Test R2={r2_te:.4f}")
-print("\nTo deploy: rename epigraph_model_v3.pth → epigraph_model_v2.pth  (or update MODEL_PATH in app.py)")
+print("\nTo deploy: rename epigraph_model_v3.pth -> epigraph_model_v2.pth  (or update MODEL_PATH in app.py)")
